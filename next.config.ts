@@ -7,6 +7,9 @@ const emptyPolyfill = path.resolve(
 );
 
 const nextConfig: NextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
   experimental: {
     optimizePackageImports: ['react-leaflet', 'leaflet', 'echarts'],
     cssChunking: 'strict',

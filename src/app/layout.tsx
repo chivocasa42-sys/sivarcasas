@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import Providers from "./Providers";
+import CloudflareAnalytics from "@/components/CloudflareAnalytics";
 import "./globals.css";
 
 const inter = Inter({
@@ -60,7 +59,6 @@ export const metadata: Metadata = {
   },
 };
 
-// 20260128 Cambio para usar Analitycs Vercel con ChatGPT
 export default function RootLayout({
   children,
 }: {
@@ -72,12 +70,7 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
-
-        {/* Performance */}
-        <SpeedInsights />
-
-        {/* Analytics */}
-        <Analytics />
+        <CloudflareAnalytics />
 
       </body>
     </html>
