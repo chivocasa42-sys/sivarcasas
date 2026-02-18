@@ -80,7 +80,7 @@ SivarCasas2/
 │   │   ├── Providers.tsx       # Context providers (FavoritesProvider)
 │   │   ├── robots.ts           # robots.txt dinámico
 │   │   ├── sitemap.ts          # sitemap.xml dinámico
-│   │   ├── opengraph-image.tsx # OG image dinámico (@vercel/og)
+│   │   ├── opengraph-image.tsx # OG image dinámico (Next.js ImageResponse)
 │   │   ├── twitter-image.tsx   # Twitter card dinámico
 │   │   ├── globals.css         # CSS core (variables, reset, temas)
 │   │   ├── pages.css           # CSS específico de páginas
@@ -288,8 +288,8 @@ SivarCasas2/
 |--------------------------|---------------|-----------------------------------------|
 | src/app/robots.ts        | robots.txt    | Allow: /, Disallow: /api/               |
 | src/app/sitemap.ts       | sitemap.xml   | Home + tendencias + valuador + 14 deptos × 3 variantes |
-| src/app/opengraph-image.tsx | OG image   | 1200×630, @vercel/og runtime            |
-| src/app/twitter-image.tsx   | Twitter card | 1200×600, @vercel/og runtime          |
+| src/app/opengraph-image.tsx | OG image   | 1200×630, Next.js ImageResponse            |
+| src/app/twitter-image.tsx   | Twitter card | 1200×600, Next.js ImageResponse          |
 
 ---
 

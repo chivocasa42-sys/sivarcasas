@@ -1,12 +1,13 @@
 /**
  * Dynamic Open Graph Image Generator
- * 
+ *
  * Server-side generated OG image for social sharing.
- * Uses @vercel/og for edge-compatible image generation.
+ * Uses Next.js ImageResponse for edge-compatible image generation.
  */
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
+export const dynamic = 'force-static';
 
 export const alt = 'sivarcasas - Propiedades en El Salvador';
 export const size = {

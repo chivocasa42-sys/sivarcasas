@@ -11,10 +11,10 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   distDir: 'out',
   experimental: {
-    optimizePackageImports: ['react-leaflet', 'leaflet', 'echarts'],
     cssChunking: 'strict',
     optimizeCss: true,
   },
+  excludeDefaultMomentLocales: false,
   turbopack: {
     resolveAlias: {
       // Stub polyfills for Turbopack dev builds

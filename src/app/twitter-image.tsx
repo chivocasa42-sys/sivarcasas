@@ -1,12 +1,13 @@
 /**
  * Dynamic Twitter Image Generator
- * 
+ *
  * Server-side generated Twitter card image.
  * Reuses the OG image structure with Twitter-optimized dimensions.
  */
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
+export const dynamic = 'force-static';
 
 export const alt = 'sivarcasas - Propiedades en El Salvador';
 export const size = {
