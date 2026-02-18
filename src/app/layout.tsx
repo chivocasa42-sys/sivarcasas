@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Providers from "./Providers";
-import CloudflareAnalytics from "@/components/CloudflareAnalytics";
 import "./globals.css";
 
 const inter = Inter({
@@ -70,7 +69,6 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
-        <CloudflareAnalytics />
 
       </body>
     </html>
