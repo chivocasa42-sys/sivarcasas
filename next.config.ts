@@ -1,36 +1,9 @@
 import type { NextConfig } from "next";
-import path from "path";
-
-const emptyPolyfill = path.resolve(
-  import.meta.dirname ?? __dirname,
-  'src/empty-polyfills.js'
-);
 
 const nextConfig: NextConfig = {
   output: 'export',
   trailingSlash: true,
   distDir: 'out',
-  experimental: {
-    cssChunking: 'strict',
-    optimizeCss: true,
-  },
-  excludeDefaultMomentLocales: false,
-  turbopack: {
-    resolveAlias: {
-      // Stub polyfills for Turbopack dev builds
-      'next/dist/build/polyfills/polyfill-nomodule': './src/empty-polyfills.js',
-    },
-  },
-  webpack(config, { isServer }) {
-    // Stub polyfills for webpack production builds
-    if (!isServer) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        'next/dist/build/polyfills/polyfill-nomodule': emptyPolyfill,
-      };
-    }
-    return config;
-  },
   images: {
     remotePatterns: [
       {
@@ -38,27 +11,6 @@ const nextConfig: NextConfig = {
         hostname: '**',
       },
     ],
-  },
-  async redirects() {
-    const departments = [
-      'ahuachapan', 'cabanas', 'chalatenango', 'cuscatlan',
-      'la-libertad', 'la-paz', 'la-union', 'morazan',
-      'san-miguel', 'san-salvador', 'san-vicente', 'santa-ana',
-      'sonsonate', 'usulutan'
-    ];
-
-    return departments.flatMap(dept => [
-      {
-        source: `/tag/${dept}`,
-        destination: `/${dept}`,
-        permanent: true,
-      },
-      {
-        source: `/tag/${dept}/:filter`,
-        destination: `/${dept}/:filter`,
-        permanent: true,
-      }
-    ]);
   },
 };
 

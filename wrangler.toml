@@ -1,34 +1,13 @@
 name = "sivarcasas"
 compatibility_date = "2024-02-08"
-compatibility_flags = ["nodejs_compat"]
 
 [env.production]
 name = "sivarcasas"
-routes = [
-  { pattern = "sivarcasas.com", custom_domain = true }
-]
 
 [env.preview]
 name = "sivarcasas-preview"
 
-[build]
-command = "npm run build"
-
-[build.upload]
-format = "modules"
-dir = ".next"
-main = "./server.js"
-
-# Environment variables (set these in Cloudflare dashboard)
-[vars]
-NODE_ENV = "production"
-
-# For static assets
-[[build.upload.rules]]
-type = "ESModule"
-globs = ["**/*.js"]
-
-# Next.js specific configuration
+# Static site configuration for Cloudflare Pages
 [env.production.vars]
 NEXT_PUBLIC_SITE_URL = "https://sivarcasas.com"
 
