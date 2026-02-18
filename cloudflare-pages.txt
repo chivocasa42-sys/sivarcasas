@@ -1,0 +1,7 @@
+# Static Site Configuration for Cloudflare Pages
+# Build command: npm run build
+# Output directory: out
+# No Worker configuration needed - static hosting only
+
+# Environment variables for Cloudflare Pages
+NEXT_PUBLIC_SITE_URL=https://sivarcasas.com
