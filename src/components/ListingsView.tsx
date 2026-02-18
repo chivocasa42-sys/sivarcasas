@@ -8,7 +8,6 @@ import ListingCard from './ListingCard';
 interface ListingsViewProps {
     location: string;
     stats: LocationStats;
-    allListings: Listing[];
     onBack: () => void;
 }
 
@@ -36,7 +35,7 @@ function getArea(listing: Listing): number {
 
 type SortOption = 'price-asc' | 'price-desc' | 'rooms-desc' | 'rooms-asc' | 'ppm2-asc' | 'ppm2-desc';
 
-export default function ListingsView({ location, stats, allListings, onBack }: ListingsViewProps) {
+export default function ListingsView({ location, stats, onBack }: ListingsViewProps) {
     const router = useRouter();
     const [sortBy, setSortBy] = useState<SortOption>('price-asc');
 

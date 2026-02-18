@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import LazyImage from './LazyImage';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { useFavorites } from '@/hooks/useFavorites';
 
 interface ListingModalProps {
@@ -17,7 +17,12 @@ interface FullListing {
     title: string;
     price: number;
     currency: string;
-    location: any;
+    location: {
+        latitude?: number;
+        longitude?: number;
+        municipio_detectado?: string;
+        departamento?: string;
+    } | null;
     listing_type: 'sale' | 'rent';
     description: string;
     specs: Record<string, string | number | undefined>;
@@ -59,7 +64,7 @@ function getArea(specs: Record<string, string | number | undefined> | null | und
 }
 
 // Use location tags from the listing
-function getLocationTags(listingTags: string[] | null | undefined, location: any): string[] {
+function getLocationTags(listingTags: string[] | null | undefined, location: FullListing['location']): string[] {
     // Tags to exclude from display (all listings are in El Salvador, so redundant)
     const excludedTags = ['el salvador', 'no identificado'];
 
@@ -118,6 +123,10 @@ export default function ListingModal({ externalId, onClose }: ListingModalProps)
             .catch(() => {});
     }, [listing]);
 
+    const images = (listing?.images || []).slice(0, 5);
+    const goToNext = useCallback(() => setCurrentImageIndex((prev) => (prev + 1) % images.length), [images.length]);
+    const goToPrev = useCallback(() => setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length), [images.length]);
+
     // Keyboard navigation
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -127,11 +136,7 @@ export default function ListingModal({ externalId, onClose }: ListingModalProps)
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    });
-
-    const images = (listing?.images || []).slice(0, 5);
-    const goToNext = () => setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    const goToPrev = () => setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+    }, [onClose, goToPrev, goToNext]);
 
     if (isLoading) {
         return (
@@ -189,11 +194,13 @@ export default function ListingModal({ externalId, onClose }: ListingModalProps)
 
                     <div className="relative w-full aspect-[16/9]">
                         {images.length > 0 ? (
-                            <img
+                            <Image
                                 src={images[currentImageIndex]}
                                 alt={`Imagen ${currentImageIndex + 1}`}
-                                className="absolute inset-0 w-full h-full object-contain bg-slate-900"
-                                loading="lazy"
+                                fill
+                                className="object-contain bg-slate-900"
+                                unoptimized
+                                priority={currentImageIndex === 0}
                             />
                         ) : (
                             <div className="absolute inset-0 flex items-center justify-center text-slate-500">
@@ -252,11 +259,12 @@ export default function ListingModal({ externalId, onClose }: ListingModalProps)
                                     : 'border-transparent hover:border-slate-300'
                                     }`}
                             >
-                                <img
+                                <Image
                                     src={img}
                                     alt={`Miniatura ${idx + 1}`}
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
+                                    fill
+                                    className="object-cover"
+                                    unoptimized
                                 />
                             </button>
                         ))}
@@ -350,17 +358,18 @@ export default function ListingModal({ externalId, onClose }: ListingModalProps)
                             {/* Map Preview - compact */}
                             {hasMap && (
                                 <a
-                                    href={`https://www.google.com/maps?q=${listing.location.latitude},${listing.location.longitude}`}
+                                    href={`https://www.google.com/maps?q=${listing.location?.latitude},${listing.location?.longitude}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="block rounded-lg overflow-hidden border border-slate-200 hover:border-blue-400 transition-all hover:shadow-md"
                                 >
-                                    <div className="relative">
-                                        <img
-                                            src={`https://static-maps.yandex.ru/1.x/?ll=${listing.location.longitude},${listing.location.latitude}&z=15&size=400,150&l=map&pt=${listing.location.longitude},${listing.location.latitude},pm2rdm`}
+                                    <div className="relative h-[80px] md:h-[90px]">
+                                        <Image
+                                            src={`https://static-maps.yandex.ru/1.x/?ll=${listing.location?.longitude},${listing.location?.latitude}&z=15&size=400,150&l=map&pt=${listing.location?.longitude},${listing.location?.latitude},pm2rdm`}
                                             alt="Ubicación en mapa"
-                                            className="w-full h-[80px] md:h-[90px] object-cover"
-                                            loading="lazy"
+                                            fill
+                                            className="object-cover"
+                                            unoptimized
                                         />
                                         <div className="absolute bottom-1 right-1 bg-white/90 backdrop-blur-sm text-[10px] text-slate-600 px-1.5 py-0.5 rounded shadow flex items-center gap-0.5">
                                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

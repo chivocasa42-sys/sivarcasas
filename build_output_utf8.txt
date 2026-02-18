@@ -1,0 +1,56 @@
+﻿
+> sivarcasas-dashboard@0.1.0 build
+> next build
+
+node.exe :  ΓÜá Warning: Next.js inferred your workspace root, but it may not be correct.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( ΓÜá Warning: N...not be correct.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ We detected multiple lockfiles and selected the directory of C:\Users\mario.hernandez\Documents\Document MAHR\ChivoCasa\package-lock.json as the root 
+directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * C:\Users\mario.hernandez\Documents\Document MAHR\ChivoCasa\sivarcasas\package-lock.json
+
+   Γû▓ Next.js 15.5.2
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 3.7s
+   Linting and checking validity of types ...
+
+./src/components/BestOpportunitySection.tsx
+107:45  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/LazyImage.tsx
+107:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+123:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/ListingModal.tsx
+196:29  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+259:33  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+363:41  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/MapExplorer.tsx
+597:53  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+Failed to compile.
+
+./src/components/ListingModal.tsx:357:76
+Type error: 'listing.location' is possibly 'null'.
+
+[0m [90m 355 |[39m                             {hasMap [33m&&[39m (
+ [90m 356 |[39m                                 [33m<[39m[33ma[39m
+[31m[1m>[22m[39m[90m 357 |[39m                                     
+href[33m=[39m{[32m`https://www.google.com/maps?q=${listing.location.latitude},${listing.location.longitude}`[39m}
+ [90m     |[39m                                                                            [31m[1m^[22m[39m
+ [90m 358 |[39m                                     target[33m=[39m[32m"_blank"[39m
+ [90m 359 |[39m                                     rel[33m=[39m[32m"noopener noreferrer"[39m
+ [90m 360 |[39m                                     className[33m=[39m[32m"block rounded-lg overflow-hidden border border-slate-200 
+hover:border-blue-400 transition-all hover:shadow-md"[39m[0m
+Next.js build worker exited with code: 1 and signal: null

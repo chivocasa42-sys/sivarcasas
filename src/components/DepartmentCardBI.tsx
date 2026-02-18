@@ -21,7 +21,7 @@ function formatPriceCompact(price: number): string {
     return '$' + price.toLocaleString();
 }
 
-export default function DepartmentCardBI({ stats, filterType, onClick }: DepartmentCardBIProps) {
+export default function DepartmentCardBI({ stats, onClick }: DepartmentCardBIProps) {
     return (
         <div
             className="bg-white rounded-xl shadow-sm border border-slate-200 hover:shadow-md hover:border-rose-300 hover:scale-[1.01] transition-all duration-200 cursor-pointer flex flex-col"

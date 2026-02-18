@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { imageCache } from '@/lib/imageCache';
+import Image from 'next/image';
 
 interface LazyImageProps {
     src: string;
@@ -104,29 +105,28 @@ export default function LazyImage({
 
             {/* Actual image */}
             {(imageSrc || useFallback || hasError) && (
-                <img
+                <Image
                     src={finalSrc}
                     alt={alt}
-                    className={`w-full h-full object-cover transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'
+                    fill
+                    className={`object-cover transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'
                         }`}
-                    loading="lazy"
-                    decoding="async"
+                    unoptimized
                     onError={handleNativeError}
                     onLoad={() => setIsLoading(false)}
-                    // Add referrerPolicy to help with some CDNs
-                    referrerPolicy="no-referrer"
                 />
             )}
 
             {/* Placeholder while loading */}
             {!imageSrc && !useFallback && !hasError && !isLoading && isInView && (
-                <img
+                <Image
                     src={placeholderSrc}
                     alt={alt}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
+                    fill
+                    className="object-cover"
+                    unoptimized
                 />
-            )}
+           )}
         </div>
     );
 }

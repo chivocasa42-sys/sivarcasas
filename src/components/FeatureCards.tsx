@@ -8,17 +8,8 @@ interface FeatureCardsProps {
 
 export default function FeatureCards({
     totalListings = 0,
-    avgPrice = 0,
     departments = 14
 }: FeatureCardsProps) {
-    // Format currency
-    const formatPrice = (price: number) => {
-        if (price >= 1000) {
-            return `$${(price / 1000).toFixed(0)}K`;
-        }
-        return `$${price.toLocaleString()}`;
-    };
-
     return (
         <div className="feature-cards-container">
             {/* Card 1: Estadísticas */}

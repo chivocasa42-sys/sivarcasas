@@ -2,8 +2,11 @@
 
 import 'leaflet/dist/leaflet.css';
 import { useState, useCallback, useRef, useEffect } from 'react';
+import { useMap, useMapEvents } from 'react-leaflet';
+import * as L from 'leaflet';
 import dynamic from 'next/dynamic';
 import SectionHeader from './SectionHeader';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 // Dynamically import Leaflet components to avoid SSR issues
@@ -97,9 +100,8 @@ interface MapExplorerProps {
 
 // Map click handler component
 function MapClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number) => void }) {
-    const MapEvents = require('react-leaflet').useMapEvents;
-    MapEvents({
-        click(e: any) {
+    useMapEvents({
+        click(e) {
             onMapClick(e.latlng.lat, e.latlng.lng);
         },
     });
@@ -108,7 +110,6 @@ function MapClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number
 
 // Fly to new center when mapCenter changes (MapContainer ignores center prop after init)
 function MapCenterUpdater({ center }: { center: [number, number] }) {
-    const useMap = require('react-leaflet').useMap;
     const map = useMap();
     useEffect(() => {
         map.flyTo(center, 14, { duration: 1 });
@@ -130,12 +131,6 @@ function formatPriceShort(price: string | number): string {
     return `$${num.toLocaleString()}`;
 }
 
-const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-    { value: 'distance_asc', label: 'Más cercanas' },
-    { value: 'recent', label: 'Más recientes' },
-    { value: 'price_asc', label: 'Precio ↑' },
-    { value: 'price_desc', label: 'Precio ↓' },
-];
 
 export default function MapExplorer({ externalLocation }: MapExplorerProps) {
     const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(DEFAULT_LOCATION);
@@ -150,7 +145,7 @@ export default function MapExplorer({ externalLocation }: MapExplorerProps) {
     const [mapReady, setMapReady] = useState(false);
 
     // Pagination, sorting & filtering state
-    const [sortBy, setSortBy] = useState<SortOption>('distance_asc');
+    const [sortBy] = useState<SortOption>('distance_asc');
     const [currentPage, setCurrentPage] = useState(0);
     const [isPaginating, setIsPaginating] = useState(false);
     const [activeTab, setActiveTab] = useState<ListingTypeFilter>('sale');
@@ -300,8 +295,8 @@ export default function MapExplorer({ externalLocation }: MapExplorerProps) {
     // Fix Leaflet default marker icon
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const L = require('leaflet');
-            delete (L.Icon.Default.prototype as any)._getIconUrl;
+            // @ts-expect-error - Leaflet internals
+            delete L.Icon.Default.prototype._getIconUrl;
             L.Icon.Default.mergeOptions({
                 iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
                 iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
@@ -599,20 +594,15 @@ export default function MapExplorer({ externalLocation }: MapExplorerProps) {
                                                 className="group flex gap-3 p-2 rounded-lg bg-[var(--bg-subtle)] hover:bg-white hover:shadow-md transition-all cursor-pointer border border-[var(--border-color)] hover:border-[var(--primary)]"
                                             >
                                                 {/* Thumbnail */}
-                                                <div className="w-24 h-20 flex-shrink-0 rounded-md overflow-hidden bg-slate-200">
-                                                    <img
-                                                        src={listing.first_image || '/placeholder.webp'}
-                                                        alt={listing.title}
-                                                        loading="lazy"
-                                                        width={96}
-                                                        height={80}
-                                                        className="w-full h-full object-cover"
-                                                        onError={(e) => {
-                                                            (e.target as HTMLImageElement).src = '/placeholder.webp';
-                                                        }}
-                                                    />
-                                                </div>
-
+                                            <div className="relative h-20 w-20 overflow-hidden rounded-lg bg-slate-100 shrink-0 border border-[var(--border-color)]">
+                                                <Image
+                                                    src={listing.first_image || '/placeholder.webp'}
+                                                    alt={listing.title}
+                                                    fill
+                                                    className="object-cover transition-transform group-hover:scale-110"
+                                                    unoptimized
+                                                />
+                                            </div>
                                                 {/* Content */}
                                                 <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
                                                     {/* Top Row: Price + Badge */}

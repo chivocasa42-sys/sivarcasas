@@ -75,7 +75,6 @@ const PILL_CONFIG: Record<ViewType, { label: string; pillClass: string; labelCla
 export default function MarketRankingCharts({ departments, activeFilter = 'all', filterSlot }: MarketRankingChartsProps) {
   const router = useRouter();
   const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'error' | 'empty'>('idle');
-  const [pulsing, setPulsing] = useState(false);
 
   const chartsInitialized = useRef(false);
   const isVisible = useRef(false);
@@ -92,8 +91,7 @@ export default function MarketRankingCharts({ departments, activeFilter = 'all',
 
   // Micro-pulse on the LIVE dot when fresh data arrives
   const triggerPulse = useCallback(() => {
-    setPulsing(true);
-    setTimeout(() => setPulsing(false), 400);
+    // Pulsing logic removed as state variable was unused
   }, []);
 
   // Render charts with current data
@@ -305,7 +303,7 @@ export default function MarketRankingCharts({ departments, activeFilter = 'all',
         ['chart-expensive', 'chart-cheap', 'chart-active', 'chart-dept-price', 'chart-monthly'].forEach(id => {
           const el = document.getElementById(id);
           if (el && typeof window.echarts !== 'undefined') {
-            const instance = (window.echarts as any).getInstanceByDom(el);
+            const instance = (window.echarts as { getInstanceByDom: (el: HTMLElement) => { resize: () => void } | null }).getInstanceByDom(el);
             if (instance) instance.resize();
           }
         });

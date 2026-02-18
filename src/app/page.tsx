@@ -35,9 +35,7 @@ interface DepartmentStats {
   total_count: number;
 }
 
-type PeriodType = '7d' | '30d' | '90d';
 type ViewType = 'all' | 'sale' | 'rent';
-type OrderType = 'activity' | 'price' | 'variation';
 
 export default function Home() {
   const [departments, setDepartments] = useState<DepartmentStats[]>([]);
@@ -45,9 +43,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
 
   // Controles
-  const [period, setPeriod] = useState<PeriodType>('30d');
   const [view, setView] = useState<ViewType>('all');
-  const [orderBy, setOrderBy] = useState<OrderType>('activity');
 
   // Hero → MapExplorer bridge
   const [heroLocation, setHeroLocation] = useState<HeroLocation | null>(null);
@@ -91,22 +87,11 @@ export default function Home() {
     }
     // 'all' shows everything — no additional filtering
 
-    // Ordenar
-    switch (orderBy) {
-      case 'activity':
-        filtered.sort((a, b) => b.total_count - a.total_count);
-        break;
-      case 'price':
-        filtered.sort((a, b) => (b.sale?.avg || 0) - (a.sale?.avg || 0));
-        break;
-      case 'variation':
-        // Ordenar por precio (simulado sin data histórica)
-        filtered.sort((a, b) => b.total_count - a.total_count);
-        break;
-    }
+    // Ordenar por actividad por defecto
+    filtered.sort((a, b) => b.total_count - a.total_count);
 
     return filtered;
-  }, [departments, view, orderBy]);
+  }, [departments, view]);
 
   // Obtener stats para mostrar según view
   const getDisplayStats = (dept: DepartmentStats) => {
