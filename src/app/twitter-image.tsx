@@ -6,7 +6,7 @@
  */
 import { ImageResponse } from 'next/og';
 
-export const dynamic = 'force-static';
+export const runtime = 'edge';
 
 export const alt = 'sivarcasas - Propiedades en El Salvador';
 export const size = {
@@ -40,7 +40,6 @@ export default async function Image() {
                 >
                     <div
                         style={{
-                            display: 'flex',
                             fontSize: 64,
                             fontWeight: 800,
                             color: '#ffffff',

@@ -6,6 +6,19 @@ import { departamentoToSlug } from '@/lib/slugify';
 
 type PeriodType = 7 | 15 | 30;
 
+interface TrendItem {
+    departamento: string;
+    currentAvg: number;
+    previousAvg: number;
+    count: number;
+}
+
+interface Oportunidad {
+    departamento: string;
+    description: string;
+    count: number;
+}
+
 interface TrendsInsightsProps {
     // Raw department data to calculate trends
     departmentData: Array<{

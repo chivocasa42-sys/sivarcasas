@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 
 // --- Types ---
@@ -57,6 +58,12 @@ const PROPERTY_TYPES = [
     { value: 'lote', label: 'Lote' },
 ];
 
+function formatCurrency(value: number): string {
+    if (value >= 1_000_000) {
+        return '$' + (value / 1_000_000).toFixed(1) + 'M';
+    }
+    return '$' + value.toLocaleString('en-US');
+}
 
 function formatCurrencyFull(value: number): string {
     return '$' + value.toLocaleString('en-US');

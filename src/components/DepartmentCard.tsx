@@ -39,6 +39,8 @@ export default function DepartmentCard({
     const filterSegment = getFilterSegment(activeFilter);
 
     // Determine which pill to show and its count
+    const showVenta = activeFilter === 'sale' || !activeFilter;
+    const showRenta = activeFilter === 'rent';
     const isAll = activeFilter === 'all';
     const pillCount = isAll ? totalCount : (activeFilter === 'rent' ? (rentCount ?? 0) : (saleCount ?? 0));
     const pillLabel = isAll ? 'TOTAL' : (activeFilter === 'rent' ? 'RENTA' : 'VENTA');

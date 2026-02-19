@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Providers from "./Providers";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import Providers from './Providers';
+import './globals.css';
 
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -16,7 +16,16 @@ export const metadata: Metadata = {
   },
   description:
     'Encuentra casas y apartamentos en venta y renta en El Salvador. Compará precios por departamento y descubrí las mejores oportunidades del mercado inmobiliario.',
-  keywords: ['inmuebles', 'propiedades', 'casas', 'apartamentos', 'El Salvador', 'venta', 'renta', 'bienes raíces'],
+  keywords: [
+    'inmuebles',
+    'propiedades',
+    'casas',
+    'apartamentos',
+    'El Salvador',
+    'venta',
+    'renta',
+    'bienes raíces',
+  ],
   authors: [{ name: 'sivarcasas' }],
   creator: 'sivarcasas',
   publisher: 'sivarcasas',
@@ -58,18 +67,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
-        <Providers>
-          {children}
-        </Providers>
-
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import Image from 'next/image';
 
 interface TopScoredListing {
     external_id: string | number;
@@ -15,7 +14,6 @@ interface TopScoredListing {
     url: string;
     first_image?: string | null;
 }
-
 
 interface BestOpportunitySectionProps {
     saleListing: TopScoredListing | null;
@@ -32,6 +30,8 @@ function formatPrice(price: number): string {
 export default function BestOpportunitySection({
     saleListing, rentListing, onViewListing, departamentoName
 }: BestOpportunitySectionProps) {
+    if (!saleListing && !rentListing) return null;
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const items = useMemo(() => {
@@ -40,8 +40,6 @@ export default function BestOpportunitySection({
         if (rentListing) next.push({ listing: rentListing, type: 'rent' });
         return next;
     }, [saleListing, rentListing]);
-
-    if (!saleListing && !rentListing) return null;
 
     const getReason = (listing: TopScoredListing) => {
         if (listing.price_per_m2 > 0) return 'MEJOR PRECIO POR m²';
@@ -91,7 +89,7 @@ export default function BestOpportunitySection({
                             const listing = item.listing;
                             const isRent = item.type === 'rent';
                             const reason = getReason(listing);
-                            const hasImage = !!listing.first_image;
+                            const hasImage = listing.first_image && listing.first_image.length > 0;
 
                             return (
                                 <div
@@ -106,14 +104,12 @@ export default function BestOpportunitySection({
                                     {/* Property Image */}
                                     <div className="oportunidad-image-wrapper">
                                         {hasImage ? (
-                                            <Image
-                                                src={listing.first_image || '/placeholder.webp'}
+                                            <img
+                                                src={listing.first_image!}
                                                 alt={listing.title || 'Propiedad'}
-                                                fill
-                                                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                                unoptimized
-                                                priority={idx === 0} // Use priority for the first image
-                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                className="oportunidad-image"
+                                                loading={idx === 0 ? 'eager' : 'lazy'}
+                                                referrerPolicy="no-referrer"
                                             />
                                         ) : (
                                             <div className="oportunidad-image-placeholder">

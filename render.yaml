@@ -1,0 +1,51 @@
+# Render Blueprint – Infrastructure as Code
+# https://docs.render.com/blueprint-spec
+#
+# Deploy: connect repo → "New Blueprint Instance" → select this file.
+# Render will read this YAML and create the service automatically.
+#
+# ┌──────────────────────────────────────────────────────────┐
+# │  Architecture: Next.js 16 + App Router (standalone mode) │
+# │  Server: Persistent Node.js (NOT serverless)             │
+# │  Caching: Next.js fetch-level caching (revalidate)       │
+# │  Database: Supabase via REST + RPC                       │
+# └──────────────────────────────────────────────────────────┘
+
+services:
+  - type: web
+    name: sivarcasas
+    runtime: node
+    plan: starter # $7/mo – 512 MB RAM, 0.5 CPU (upgrade as needed)
+    region: oregon # closest to Central America with low latency
+    numInstances: 1
+    branch: main # auto-deploy from this branch
+
+    # Build steps:
+    # 1. Clean install (deterministic)
+    # 2. Build Next.js with standalone output
+    # 3. Copy public assets and static files into the standalone folder
+    #    (standalone output doesn't include these by default)
+    buildCommand: |
+      npm ci &&
+      npm run build &&
+      cp -r public .next/standalone/public &&
+      cp -r .next/static .next/standalone/.next/static
+
+    # The standalone server.js handles all routes (SSR, API, static)
+    # It reads PORT and HOSTNAME from environment automatically
+    startCommand: node .next/standalone/server.js
+
+    # Health check confirms the server + Supabase connectivity
+    healthCheckPath: /api/tags
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: '3000'
+      - key: HOSTNAME
+        value: '0.0.0.0'
+      - key: SUPABASE_URL
+        sync: false # ← set manually in Render dashboard
+      - key: SUPABASE_SERVICE_KEY
+        sync: false # ← set manually in Render dashboard

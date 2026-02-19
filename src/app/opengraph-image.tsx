@@ -2,11 +2,11 @@
  * Dynamic Open Graph Image Generator
  *
  * Server-side generated OG image for social sharing.
- * Uses Next.js ImageResponse for image generation.
+ * Uses next/og for image generation.
  */
 import { ImageResponse } from 'next/og';
 
-export const dynamic = 'force-static';
+export const runtime = 'edge';
 
 export const alt = 'sivarcasas - Propiedades en El Salvador';
 export const size = {
@@ -40,7 +40,6 @@ export default async function Image() {
                 >
                     <div
                         style={{
-                            display: 'flex',
                             fontSize: 72,
                             fontWeight: 800,
                             color: '#ffffff',
