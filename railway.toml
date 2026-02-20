@@ -8,11 +8,7 @@ nixPkgs = ["nodejs_20", "npm"]
 cmds = ["npm ci"]
 
 [build.nixpacksPlan.phases.build]
-cmds = [
-  "npm run build",
-  "cp -r public .next/standalone/public",
-  "cp -r .next/static .next/standalone/.next/static"
-]
+cmds = ["npm run build && cp -r public .next/standalone/public && cp -r .next/static .next/standalone/.next/static"]
 
 [deploy]
 startCommand = "node .next/standalone/server.js"
