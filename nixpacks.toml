@@ -1,0 +1,18 @@
+# Railway / Nixpacks configuration
+# Forces Node.js detection (avoids Python misdetection from scripts/)
+
+[phases.setup]
+nixPkgs = ["nodejs_20", "npm"]
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = [
+  "npm run build",
+  "cp -r public .next/standalone/public",
+  "cp -r .next/static .next/standalone/.next/static"
+]
+
+[start]
+cmd = "node .next/standalone/server.js"

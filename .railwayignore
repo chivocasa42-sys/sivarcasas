@@ -1,0 +1,31 @@
+# Ignore Python scripts and data files - these are dev-only tools, not part of the app
+*.py
+__pycache__/
+.venv/
+scripts/requirements.txt
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!el_salvador_locations.json
+
+# Ignore dev/test assets
+*.html
+!src/**/*.html
+Mockup/
+tests/
+*.md
+!README.md
+
+# Ignore large images not in public/
+jardin-ca-01.jpg
+jardin-ca-01.webp
+chivocasalogo.png
+sivarcasaslogo.png
+screencapture-*.png
+
+# Ignore cache files
+.dedup_cache/
+.dedup_test_cache/
+nominatim_cache.json
+nominatim_reverse_cache.json
