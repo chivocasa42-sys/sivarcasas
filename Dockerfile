@@ -19,10 +19,11 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0
 
-# Railway asigna PORT dinámicamente
-ENV PORT=3000
+# ⚠️ No definir PORT manualmente
+# Railway lo inyecta automáticamente
 
-COPY --from=builder /app/.next/standalone ./
+# Next.js standalone output nests files under project name directory
+COPY --from=builder /app/.next/standalone/sivarcasas ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
