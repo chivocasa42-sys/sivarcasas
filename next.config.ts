@@ -1,33 +1,7 @@
-import type { NextConfig } from "next";
-import path from "path";
-
-const projectRoot = import.meta.dirname ?? __dirname;
-
-const emptyPolyfill = path.resolve(projectRoot, 'src/empty-polyfills.js');
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  experimental: {
-    optimizePackageImports: ['react-leaflet', 'leaflet', 'echarts'],
-    cssChunking: 'strict',
-    optimizeCss: true,
-  },
-  turbopack: {
-    resolveAlias: {
-      // Stub polyfills for Turbopack dev builds
-      'next/dist/build/polyfills/polyfill-nomodule': './src/empty-polyfills.js',
-    },
-  },
-  webpack(config, { isServer }) {
-    // Stub polyfills for webpack production builds
-    if (!isServer) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        'next/dist/build/polyfills/polyfill-nomodule': emptyPolyfill,
-      };
-    }
-    return config;
-  },
   images: {
     remotePatterns: [
       {
@@ -38,13 +12,23 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     const departments = [
-      'ahuachapan', 'cabanas', 'chalatenango', 'cuscatlan',
-      'la-libertad', 'la-paz', 'la-union', 'morazan',
-      'san-miguel', 'san-salvador', 'san-vicente', 'santa-ana',
-      'sonsonate', 'usulutan'
+      'ahuachapan',
+      'cabanas',
+      'chalatenango',
+      'cuscatlan',
+      'la-libertad',
+      'la-paz',
+      'la-union',
+      'morazan',
+      'san-miguel',
+      'san-salvador',
+      'san-vicente',
+      'santa-ana',
+      'sonsonate',
+      'usulutan',
     ];
 
-    return departments.flatMap(dept => [
+    return departments.flatMap((dept) => [
       {
         source: `/tag/${dept}`,
         destination: `/${dept}`,
@@ -54,7 +38,7 @@ const nextConfig: NextConfig = {
         source: `/tag/${dept}/:filter`,
         destination: `/${dept}/:filter`,
         permanent: true,
-      }
+      },
     ]);
   },
 };
