@@ -1,0 +1,44 @@
+node_modules
+.next
+.git
+.github
+.vscode
+
+# Python files (dev-only scraping tools)
+*.py
+__pycache__/
+.venv/
+venv/
+scripts/requirements.txt
+
+# Cache and data files
+.dedup_cache/
+.dedup_test_cache/
+nominatim_cache.json
+nominatim_reverse_cache.json
+
+# Large files at root (not in public/)
+/jardin-ca-01.jpg
+/jardin-ca-01.webp
+/chivocasalogo.png
+/sivarcasaslogo.png
+/screencapture-*.png
+/placeholder_vista_previa_800x600.webp
+Mockup/
+dashboard.html
+temp_vivo.html
+test_e24.html
+test_realtor.html
+
+# Docs
+*.md
+!README.md
+
+# Env
+.env*
+!.env.example
+
+# Other config
+nixpacks.toml
+render.yaml
+railway.toml
